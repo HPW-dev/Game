@@ -23,6 +23,16 @@ inline void add_dps_number(float x, float y, float damage) {
     dps_numbers.push_back(title);
 }
 
+inline void add_label(float x, float y, std::string text) {
+    if (text.empty())
+        return;
+    Dps_number title;
+    title.pos.x = x;
+    title.pos.y = y;
+    title.number = text;
+    dps_numbers.push_back(title);
+}
+
 inline void draw_dps_numbers(sf::RenderWindow& wnd) {
     for (const auto& title : dps_numbers) {
         drawtxt(wnd, title.number, title.pos.x, title.pos.y, 20);

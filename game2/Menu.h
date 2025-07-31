@@ -216,7 +216,7 @@ void update_shop() {
 					player.x2_gold += item.x2_coins_chance;
 					player.slowdown += item.movment_slowdown;
 					player.vampirism += item.vampirism;
-					player.damage *= item.Damage_Reflection;
+					player.damage += player.damage * item.Damage_Reflection;
 				}
 			};
 			spawn(button);

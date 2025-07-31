@@ -27,7 +27,7 @@ std::map <std::string, shop_item> items_base{
 	{"Buff1",shop_item{
 		.name = "x2 coins",
 		.coast = 10000,
-		.x2_coins_chance = 0.1,
+		.x2_coins_chance = 0.2,
 	} },
 	//the less health, the higher the damage
 	{"Artifacts4",shop_item{
@@ -45,7 +45,7 @@ std::map <std::string, shop_item> items_base{
 	{"Artifacts2",shop_item{
 		.name = "Soul Mirror Fragment",
 		.coast = 3000,
-		.Damage_Reflection = 2.0,
+		.Damage_Reflection = 8.0,
 	}},
 	//{"Staff1",shop_item{.name = "Icecrown Staff",.coast = 5000}},//slow
 	//{"Artifacts3",shop_item{.name = "Shadow of the Phoenix",.coast = 10000}},//Resurrection 1 time

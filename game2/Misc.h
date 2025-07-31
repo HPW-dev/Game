@@ -5,6 +5,10 @@
 #include "Game_Object.h"
 #include "dps-numbers.h"
 
+double rand_double() {
+	return rand() / double(RAND_MAX);
+}
+
 void rendercircle(sf::RenderWindow& window, float x, float y, float radius, sf::Color color) {
 	sf::CircleShape circle(radius);
 	circle.setPosition({ x - radius,y - radius });
@@ -29,14 +33,10 @@ bool circles_collide(const Game_Object& a, const Game_Object& b) {
 }
 
 void damage(Game_Object& a, Game_Object& b) {
-	if (!(a.type == Type::bot1 && b.type == Type::player)) {
-		a.hp -= b.damage;
-		add_dps_number(a.x, a.y, b.damage);
-	}
-	if (!(b.type == Type::bot1 && a.type == Type::player)) {
-		b.hp -= a.damage;
-		add_dps_number(b.x, b.y, a.damage);
-	}
+	a.hp -= b.damage;
+	b.hp -= a.damage;
+	add_dps_number(a.x-10, a.y-10, b.damage);
+	add_dps_number(b.x+10, b.y-20, a.damage);
 
 	// обработка вампиризма:
 	if (

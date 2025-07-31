@@ -1,9 +1,10 @@
 #pragma once
+#include <cmath>
 #include "Game_Object.h"
 #include "Objects.h"
 #include "Game_Core.h"
 #include "Misc.h"
-#include <cmath>
+#include "dps-numbers.h"
 
 // превращение в монетку
 void dead(Game_Object& coin) {
@@ -14,9 +15,17 @@ void dead(Game_Object& coin) {
 	coin.hp = coin.max_hp = 1;
 	coin.damage = 0;
 	coin.speed = 0;
+	// действие при поднятии монеты
 	coin.dead_function = [](Game_Object& o) {
-		if (o.life_time > 0)
-			money += 1000 / difficulty;
+		if (o.life_time > 0) {
+			auto gold = 1000.0 / difficulty;
+			const auto& player = objects.at(0);
+			// шанс выпадения x2
+			if (rand_double() < player.x2_gold)
+				gold *= 2;
+			money += gold;
+			add_label(o.x+50, o.y, "+" + std::to_string(int(gold)) + "$");
+		}
 	};
 	coin.life_time = 200 * 6;
 }
