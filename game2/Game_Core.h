@@ -2,8 +2,10 @@
 #include <iostream>
 #include "Misc.h"
 
-inline int resolutionx = 1280;
-inline int resolutiony = 720;
+constexpr int DEFAULT_RES_X = 1280;
+constexpr int DEFAULT_RES_Y = 720;
+inline int resolutionx = DEFAULT_RES_X;
+inline int resolutiony = DEFAULT_RES_Y;
 inline int mousex;
 inline int mousey;
 inline bool mouse_pressed = false;
@@ -13,6 +15,7 @@ inline double difficulty_max = 1.5; // сколько сложности набрать для смены уровн
 inline bool wawe = true;
 inline bool shop = false;
 inline double money = 0;
+inline bool fullscreen = false;
 
 void game_master() {
 	if (difficulty >= difficulty_max) {
@@ -24,3 +27,4 @@ void game_master() {
 	if (wawe == true && shop == false)
 		difficulty += 0.0001;
 }
+

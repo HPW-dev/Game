@@ -26,6 +26,7 @@ void makeplayer() {
   player.max_hp = player.hp;
   player.regen = 0;
   player.gold_passive = 0;
+  player.texture = "player";
   spawn(player);
 }
 
@@ -45,6 +46,7 @@ void bullets(Game_Object& player) {
         bullet.damage = 10;
         bullet.hp = bullet.max_hp = 100;
         bullet.creator = player.type;
+        bullet.texture = "bullet";
         spawn(bullet);
         
     }

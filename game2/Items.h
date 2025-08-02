@@ -44,6 +44,7 @@ std::map <std::string, shop_item> items_base{
 	//Damage Reflection
 	{"Artifacts2",shop_item{
 		.name = "Soul Mirror Fragment",
+
 		.coast = 3000,
 		.Damage_Reflection = 8.0,
 	}},

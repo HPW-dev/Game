@@ -13,6 +13,7 @@
 #include "Game_object_control.h"
 #include "Items.h"
 #include "dps-numbers.h"
+#include "Graphic.h"
 
 enum class menu_Type {
 	basic_menu,
@@ -44,10 +45,10 @@ void back() {
 void update_yes_or_no() {
 	if (mouse_pressed) {
 		Rectangle rec;
-		rec.x = 366;
-		rec.y = 253;
+		rec.x = resolutionx/2 - 0;
+		rec.y = resolutiony/2 - 170 + 120;
 		rec.max_x = 100;
-		rec.max_y = 40;
+		rec.max_y = 60;
 		if (in_Rectangle(rec, mousex, mousey))
 			std::exit(0);
 		else
@@ -56,9 +57,11 @@ void update_yes_or_no() {
 }
 
 void render_yes_or_no(sf::RenderWindow& window) {
-	drawtxt(window, "Yes", 363, 232, 60);
-	drawtxt(window, "No", 220, 232, 60);
-	drawtxt(window, "Exit game?", 220, 300, 90);
+	auto exit_game_y = resolutiony/2 - 170;
+	drawtxt(window, "Exit game?", resolutionx/2 - 220, exit_game_y, 90);
+	drawtxt(window, "No", resolutionx/2 - 200, exit_game_y + 120, 60);
+	drawtxt(window, "Yes", resolutionx/2 - 0, exit_game_y + 120, 60);
+	
 }
 
 void update_mainmenu() {
@@ -72,6 +75,7 @@ void update_mainmenu() {
 		if (in_Rectangle(rec, mousex, mousey)) {
 			next_menu(menu_Type::game_scene);
 			objects.clear();
+			difficulty = 0;
 			makeplayer();
 		}
 	}
@@ -102,6 +106,11 @@ void render_settings(sf::RenderWindow& window) {
 }
 
 void update_game_scene() {
+	// добавить объекты из очереди для спавна:
+	for (const auto& spawn_fn : spawn_order)
+		spawn_fn();
+	spawn_order.clear();
+
 	game_master();
 	update_dps_numbers();
 
@@ -130,18 +139,9 @@ void update_game_scene() {
 			next_menu(menu_Type::shop);
 	}
 
-	// добавить объекты из очереди для спавна:
-	for (const auto& spawn_fn : spawn_order)
-		spawn_fn();
-	spawn_order.clear();
-
 	// смерть объектов
 	std::erase_if(objects, [](Game_Object& obj) { 
 		bool hp_zero = obj.hp <= 0;
-		// за убийство бота повышение сложности
-		if (hp_zero == true && obj.type == Type::bot1) {
-			difficulty += 0.02;
-		}
 		// запуск функций при смерти объекта
 		if (obj.dead_function && hp_zero == true) {
 			obj.dead_function(obj);
@@ -166,7 +166,9 @@ void render_game_scene(sf::RenderWindow& window) {
 	drawtxt(window, std::to_string(game_time / 200), resolutionx - 100, 25, 20);
 	for (auto& object : objects)
 	{
-		rendercircle(window, object.x, object.y, object.hitbox, object.color);
+		if ( !draw_texture(window, object.texture, object.x, object.y)) {
+			rendercircle(window, object.x, object.y, object.hitbox, object.color);
+		}
 	}
 	draw_dps_numbers(window);
 }
@@ -240,8 +242,20 @@ void render_shop(sf::RenderWindow& window) {
 }
 
 void update_menu() {
+	// проверить что ESC нажали, а потом отпустили
+	static bool prev_key = false;
+	bool key_esc = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape);
+	if (key_esc == true) {
+		prev_key = true;
+	} else if (prev_key == true) {
+		prev_key = false;
+		back();
+	}
+
+	// проверка что меню закончились
 	if (history_of_menu.empty())
 		return;
+	
 	auto menu = history_of_menu.back();
 	switch (menu)
 	{

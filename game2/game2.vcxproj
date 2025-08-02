@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game2.cpp" />
+    <ClCompile Include="Graphic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot1.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Game_Core.h" />
     <ClInclude Include="Game_Object.h" />
     <ClInclude Include="Game_object_control.h" />
+    <ClInclude Include="Graphic.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Misc.h" />

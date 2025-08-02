@@ -36,6 +36,8 @@ struct Game_Object {
 	double combustion = 0;
 	double x2_gold = 0;
 	int life_time = 0;
-	Type creator;
+	double difficulty_plus = 0;
+	std::string texture {}; // картинка объекта
+	Type creator = {}; // тот, кто создал объект
 	std::function <void(Game_Object&)> dead_function;
 };
