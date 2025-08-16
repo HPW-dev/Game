@@ -4,7 +4,7 @@
 #include "Bot1.h"
 #include "Bullet.h"
 
-void game_object_control(Game_Object& object) {
+inline void game_object_control(Game_Object& object) {
 	switch (object.type) {
 	  case Type::player: moveplayer(object); break;
 	  case Type::bot1: move_bot(object); break;

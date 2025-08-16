@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <SFML/Graphics.hpp>
+#include "potato-sfml.h"
 
 // загрузить текстуру - file это название файла
 void load_texture(std::string name, std::string file);

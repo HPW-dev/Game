@@ -1,15 +1,10 @@
 ﻿#include <ctime>
-
-#pragma warning(push)
-#pragma warning(disable: 4275)
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#pragma warning(pop)
-
+#include "potato-sfml.h"
 #include "Player.h"
 #include "Bot1.h"
 #include "Menu.h"
 #include "Font.h"
+#include "Objects.h"
 #include "Game_Core.h"
 #include "Misc.h"
 #include "Game_Object.h"
@@ -42,7 +37,8 @@ void set_fullscreen(sf::RenderWindow& window, bool mode) {
 }
 
 int main() {
-    srand( time(0) ); // для разной случайной генерации
+    const auto launch_time = static_cast<unsigned>(time({}));
+    srand(launch_time); // для разной случайной генерации
 
     next_menu(menu_Type::basic_menu);
     int fps = 0;
@@ -74,8 +70,8 @@ int main() {
         Escape или через нажатие по крестику на окне */
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
           sf::Vector2i globalPosition = sf::Mouse::getPosition(window);
-          mousex = globalPosition.x;
-          mousey = globalPosition.y;
+          mousex = static_cast<float>(globalPosition.x);
+          mousey = static_cast<float>(globalPosition.y);
           mouse_pressed = true;
         }
         else {
@@ -83,9 +79,6 @@ int main() {
         }
 
         update_menu();
-
-        if (history_of_menu.empty())
-            next_menu(menu_Type::yes_no);
 
         auto time_now = std::clock();
         auto eps = (time_now - time_st) / double(CLOCKS_PER_SEC);
@@ -96,7 +89,7 @@ int main() {
         }
 
         window.clear(); // стереть предыдущий кадр
-        render_menu_func(window);
+        menu_render(window);
         drawtxt(window, fps_txt, 5, 5, 20);
         fps += 1;
         window.display(); // показать кадр
