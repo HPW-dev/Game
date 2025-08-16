@@ -43,6 +43,7 @@ static void bullets(Game_Object& player) {
       float angle_y = ((rand() / float(RAND_MAX)) * 2.f - 1.f) * 10.f;
       bullet.vx = (mousex - player.x + angle_x) / dist * bullet.speed;
       bullet.vy = (mousey - player.y + angle_y) / dist * bullet.speed;
+      bullet.is_bullet = true;
       bullet.size = player.size;
       player.shot_time = std::ceil(player.shot_time_max);
 

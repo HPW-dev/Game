@@ -191,4 +191,18 @@ inline std::map <std::string, shop_item> items_base{
 			std::terminate();
 		}
 	} },
+	
+	{ "art-casino",shop_item{
+		.name = "Casino",
+		.coast = int(BASE_COAST * 0.6f),
+		.action = [](Game_Object& player) {
+			if (rand() % 2) {
+				money *= 4.f;
+				add_label(200, 200, "MONEY +" + std::to_string(int(money)), sf::Color::Green);
+			} else {
+				money *= -1;
+				add_label(200, 200, "MONEY -" + std::to_string(int(money)), sf::Color::Red);
+			}
+		}
+	} },
 };

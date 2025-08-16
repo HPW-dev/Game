@@ -27,7 +27,8 @@ void update_shop() {
 		player.y = resolutiony / 2.f;
 		int id_items = 0;
 		//добавление предмета
-		for (int i = 0; i < 3 + (rand() % 3); ++i)
+		auto max_items = 3 + (rand() % 3);
+		for (int i = 0; i < max_items; ++i)
 			shop_items.push_back(random_shop_item());
 
 		for (auto& item : shop_items) {

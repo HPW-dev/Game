@@ -22,6 +22,7 @@ static void dead(Game_Object& coin) {
 	coin.damage = 0;
 	coin.speed = 0;
 	coin.difficulty_plus = 0;
+	coin.is_enemy = false;
 
 	// действие при поднятии монеты
 	coin.dead_function = [](Game_Object& o) {
@@ -63,6 +64,7 @@ void makebot1() {
 	bot1.damage = 0.2f * difficulty;
 	bot1.texture = "bot_1";
 	bot1.dead_function = &dead;
+	bot1.is_enemy = true;
 	spawn(bot1);
 }
 
@@ -70,6 +72,8 @@ void move_bot(Game_Object& object) {
 	auto& player = get_player();
 	if (player.type != Type::player)
 		return;
+
+	object.speed = std::min(object.speed, 10.f);
 
 	double x = player.x - object.x;
 	double y = player.y - object.y;

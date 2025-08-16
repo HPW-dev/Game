@@ -1,6 +1,7 @@
 #include "menu-game.h"
 #include "Game_Core.h"
 #include "Bot1.h"
+#include "Bot2.h"
 #include "Graphic.h"
 #include "Game_object_control.h"
 #include "Menu.h"
@@ -22,6 +23,11 @@ void update_game_scene() {
 			const int count = std::ceil(1 + (difficulty / 4) * 2);
 			for (int i = 0; i < count; ++i)
 				makebot1();
+
+			// второй вид противника
+			if (difficulty >= 1.2f)
+				for (int i = 0; i < count; ++i)
+					make_bot_2();
 		}
 
 	// физика объектов

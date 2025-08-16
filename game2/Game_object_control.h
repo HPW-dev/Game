@@ -2,14 +2,17 @@
 #include "Game_Object.h"
 #include "Player.h"
 #include "Bot1.h"
+#include "Bot2.h"
 #include "Bullet.h"
 
 inline void game_object_control(Game_Object& object) {
 	switch (object.type) {
 	  case Type::player: moveplayer(object); break;
 	  case Type::bot1: move_bot(object); break;
+	  case Type::bot_archer: move_bot_2(object); break;
 	  case Type::bullet: move_bullet(object); break;
-		case Type::coin: break;
+	  case Type::bot_bullet: move_bullet(object); break;
+	  case Type::coin: break;
 	}
 
 	// смерть от таймера

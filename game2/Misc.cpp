@@ -40,11 +40,11 @@ void damage(Game_Object& a, Game_Object& b) {
 
 	// обработка вампиризма:
 	if (
-		(a.type == Type::bot1 && b.type == Type::bullet) ||
-		(b.type == Type::bot1 && a.type == Type::bullet)
+		(a.is_enemy == true && b.type == Type::bullet) ||
+		(b.is_enemy == true && a.type == Type::bullet)
 		) {
 		auto& player = objects.at(0);
-		auto damage = a.type == Type::bot1 ? a.damage : b.damage;
+		auto damage = b.is_enemy ? a.damage : b.damage;
 		player.hp += damage * player.vampirism;
 	}
 
@@ -61,11 +61,18 @@ if (a.type == Type::B && b.type == Type::A) \
   return true;
 
 	collision_ready(bullet, bot1)
-		collision_ready(player, bot1)
-		collision_ready(player, coin)
-		collision_ready(player, button)
+	collision_ready(player, bot1)
+	collision_ready(player, coin)
+	collision_ready(player, button)
 #undef collision_ready
-		return false;
+
+	if (b.is_bullet && a.is_bullet) return false;
+	if (a.is_bullet && b.is_bullet) return false;
+	if (a.type == Type::player && b.is_enemy) return true;
+	if (b.type == Type::player && a.is_enemy) return true;
+	if (a.type == Type::bullet && b.is_enemy) return true;
+	if (b.type == Type::bullet && a.is_enemy) return true;
+	return false;
 }
 
 int enemy_info() {

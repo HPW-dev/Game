@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bot1.cpp" />
+    <ClCompile Include="Bot2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="dps-numbers.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot1.h" />
+    <ClInclude Include="Bot2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Characters.h" />
     <ClInclude Include="dps-numbers.h" />

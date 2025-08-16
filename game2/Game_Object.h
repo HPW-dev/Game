@@ -9,6 +9,8 @@ enum class Type {
 	bullet,
 	coin,
 	button,
+	bot_archer,
+	bot_bullet,
 };
 
 struct Game_Object {
@@ -24,7 +26,7 @@ struct Game_Object {
 	float combustion = 0;
 	float x2_gold = 0;
 	float HP_to_damage_ratio = 0;
-	int shot_delay = 0;
+	int shot_delay = 0; // время задержки выстрела
 	int resurections = 0;
 	sf::Color color;
 	std::string texture {}; // картинка объекта
@@ -35,11 +37,13 @@ struct Game_Object {
 	float vx = 0, vy = 0;
 	float difficulty_plus = 0;
 	int life_time = 0;
-	int shot_time = 0;
+	int shot_time = 0; // скольк прошло времени после выстрела
 	float shot_time_max = 15.f;
 	float armor = 0;
 	unsigned bullets = 1;
 	float coin_to_hp = 0;
+	bool is_enemy = false;
+	bool is_bullet = false;
 	Type type{};
 	Type creator{}; // тот, кто создал объект
 };
