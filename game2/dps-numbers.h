@@ -1,52 +1,18 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include "Font.h"
+#include "potato-sfml.h"
 
 struct Dps_number {
     std::string number {};
     sf::Vector2f pos {};
     int lifetime = 250;
+    sf::Color color{};
 };
 
-// список надписей с уроном на экране
-inline std::vector<Dps_number> dps_numbers {};
-
 // добавить надпись об уроне
-inline void add_dps_number(float x, float y, float damage) {
-    if (damage < 1)
-        return;
-    Dps_number title;
-    title.pos.x = x;
-    title.pos.y = y;
-    title.number = std::to_string(int(damage));
-    dps_numbers.push_back(title);
-}
-
-inline void add_label(float x, float y, std::string text) {
-    if (text.empty())
-        return;
-    Dps_number title;
-    title.pos.x = x;
-    title.pos.y = y;
-    title.number = text;
-    dps_numbers.push_back(title);
-}
-
-inline void draw_dps_numbers(sf::RenderWindow& wnd) {
-    for (const auto& title : dps_numbers) {
-        drawtxt(wnd, title.number, title.pos.x, title.pos.y, 20);
-    }
-}
-
-inline void update_dps_numbers() {
-    for (auto& title : dps_numbers) {
-        title.lifetime--;
-        title.pos.y -= 0.2; // двигать надпись вверх
-        title.pos.x += (rand() % 3 - 1) * 0.3;
-    }
-    // убить все надписи, у которых кончилось время
-    std::erase_if(dps_numbers, [](Dps_number& title) { 
-		return title.lifetime <= 0;
-	});
-}
+void add_dps_number(float x, float y, float damage);
+// любая надпись над объектом
+void add_label(float x, float y, std::string text, sf::Color color=sf::Color(255, 255, 0));
+void draw_dps_numbers(sf::RenderWindow& wnd);
+void update_dps_numbers();

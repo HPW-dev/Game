@@ -21,7 +21,8 @@ bool draw_texture(sf::RenderWindow& window, std::string name, float x, float y, 
     try {
         auto& texture = textures.at(name);
         auto sz = texture.tex->getSize();
-        texture.spr->setPosition(sf::Vector2f{x-sz.x/2, y-sz.y/2});
+        texture.spr->setPosition(sf::Vector2f{x-sz.x*scale/2, y-sz.y*scale/2});
+        texture.spr->setScale(sf::Vector2f{scale, scale});
         // TODO scale
         window.draw(*texture.spr);
         return true;

@@ -1,6 +1,6 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <functional>
+#include "potato-sfml.h"
 
 enum class Type {
 	none,
@@ -12,32 +12,34 @@ enum class Type {
 };
 
 struct Game_Object {
-	double gold_passive = 0; // если > 0, то золото будет капать каждый кадр
-	double x = 0, y = 0;
-	double hitbox = 0;
-	sf::Color color;
-	double hp = 0;
-	double damage = 0;
-	Type type;
-	double speed = 0;
-	double buff_on_damage = 0;
-	double buff_on_def = 0;
-	double buf_on_recharge_speed = 0;
-	double buff_on_speed = 0;
-	double radius_of_weapon = 0;
-	double weapon_size = 0;
-	double vx = 0, vy = 0;
+	float gold_passive = 0; // если > 0, то золото будет капать каждый кадр
+	float damage = 0;
+	float speed = 0;
+	float size = 1;
+	float max_hp = 0;
+	float regen = 0;
+	float movement_slowdown = 0;
+	float vampirism = 0;
+	float coast_plus = 0;
+	float combustion = 0;
+	float x2_gold = 0;
+	float HP_to_damage_ratio = 0;
 	int shot_delay = 0;
-	int shot_time = 0;
-	double max_hp = 0;
-	double regen = 0;
-	double slowdown = 0; // <-- movement slowdown
-	double vampirism = 0;
-	double combustion = 0;
-	double x2_gold = 0;
-	int life_time = 0;
-	double difficulty_plus = 0;
+	int resurections = 0;
+	sf::Color color;
 	std::string texture {}; // картинка объекта
-	Type creator = {}; // тот, кто создал объект
-	std::function <void(Game_Object&)> dead_function;
+	std::function <void(Game_Object&)> dead_function{};
+	float x = 0, y = 0;
+	float hitbox = 0;
+	float hp = 0;
+	float vx = 0, vy = 0;
+	float difficulty_plus = 0;
+	int life_time = 0;
+	int shot_time = 0;
+	float shot_time_max = 15.f;
+	float armor = 0;
+	unsigned bullets = 1;
+	float coin_to_hp = 0;
+	Type type{};
+	Type creator{}; // тот, кто создал объект
 };
