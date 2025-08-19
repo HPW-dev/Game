@@ -2,6 +2,7 @@
 #include "Game_Core.h"
 #include "Bot1.h"
 #include "Bot2.h"
+#include "Boss.h"
 #include "Graphic.h"
 #include "Game_object_control.h"
 #include "Menu.h"
@@ -25,10 +26,15 @@ void update_game_scene() {
 				makebot1();
 
 			// второй вид противника
-			if (difficulty >= 1.2f)
+			if (difficulty >= 6.0f)
 				for (int i = 0; i < count; ++i)
 					make_bot_2();
 		}
+
+	if (kill_boss && !boss_spawned) {
+		boss_spawned = true;
+		make_boss();
+	}
 
 	// физика объектов
 	for (auto& object : objects)
@@ -70,6 +76,7 @@ void update_game_scene() {
 }
 
 void render_game_scene(sf::RenderWindow& window) {
+	window.clear(bg_color);
 	std::string txt = "difficulty " + std::to_string(difficulty);
 	std::string healt = "hp " + std::to_string(int(get_player().hp));
 	std::string enemy_count = "enemy count " + std::to_string(enemy_info());

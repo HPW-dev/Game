@@ -10,6 +10,10 @@
 
 // превращение в монетку
 static void make_money(Game_Object& coin) {
+    kill_boss = false;
+	boss_defeated = true;
+    boss_spawned = false;
+
 	// за убийство бота повышение сложности
 	if (wawe == true)
 		difficulty += coin.difficulty_plus;
@@ -37,12 +41,12 @@ static void make_money(Game_Object& coin) {
 			player.hp += player.coin_to_hp;
 			add_label(o.x + 50, o.y, "+" + std::to_string(int(gold)) + "$");
 		}
-		};
+	};
 	coin.texture = "coin";
 	coin.life_time = 200 * 6;
 }
 
-void make_bot_2() {
+void make_boss() {
 	int angle = rand() % 360;
 	auto x = std::cos(angle);
 	auto y = std::sin(angle);
@@ -53,52 +57,54 @@ void make_bot_2() {
 	x += resolutionx / 2.0;
 	y += resolutiony / 2.0;
     
-	Game_Object bot2;
-	bot2.type = Type::bot_archer;
-	bot2.x = static_cast<float>(x);
-	bot2.y = static_cast<float>(y);
-	bot2.difficulty_plus = 0.02f;
-	bot2.speed = 0.3f * difficulty;
-	bot2.hitbox = 15;
-	bot2.color = { 255,0,0 };
-	bot2.hp = bot2.max_hp = 20 * difficulty;
-	bot2.damage = 0.2f * difficulty;
-    bot2.is_enemy = true;
-	bot2.shot_delay = 2 * 200;
-	bot2.shot_time = rand() % bot2.shot_delay;
-	//bot2.texture = "bot_1";
-	bot2.dead_function = &make_money;
-	spawn(bot2);
+	Game_Object e;
+	e.type = Type::boss1;
+	e.x = static_cast<float>(x);
+	e.y = static_cast<float>(y);
+	e.difficulty_plus = 0.02f;
+	e.speed = 0.1f * difficulty;
+	e.hitbox = 50;
+	e.color = { 255,128,0 };
+	e.hp = e.max_hp = 10'000 * difficulty;
+	e.damage = 0.4f * difficulty;
+    e.is_enemy = true;
+	e.shot_delay = 2 * 300;
+	e.shot_time = rand() % e.shot_delay;
+	//e.texture = "bot_1";
+	e.dead_function = &make_money;
+	spawn(e);
 }
 
-void shot_to_player(Game_Object& bot, const Game_Object& target) {
-	Game_Object bullet;
-	bullet.type = Type::bot_bullet;
-	
-	float x = target.x - bot.x;
-	float y = target.y - bot.y;
-	float diff = distance(target.x, target.y, bot.x, bot.y);
-	x /= diff;
-    y /= diff;
-	float BULLET_SPEED = 1.f;
-    x *= BULLET_SPEED;
-    y *= BULLET_SPEED;
-	bullet.vx = x;
-	bullet.vy = y;
-	bullet.x = bot.x;
-	bullet.y = bot.y;
+static void shot_to_player(Game_Object& bot, const Game_Object& target) {
+    for (int i = 0; i < 10 + rand() % 30; ++i) {
+        Game_Object bullet;
+        bullet.type = Type::bot_bullet;
+        
+        float x = target.x - bot.x + (rand_double() * 2.0 - 1.0) * 50.0;
+        float y = target.y - bot.y + (rand_double() * 2.0 - 1.0) * 50.0;
+        float diff = distance(target.x, target.y, bot.x, bot.y);
+        x /= diff;
+        y /= diff;
+        float BULLET_SPEED = 2.5f;
+        x *= BULLET_SPEED;
+        y *= BULLET_SPEED;
+        bullet.vx = x;
+        bullet.vy = y;
+        bullet.x = bot.x + (rand_double() * 2.0 - 1.0) * 30.0;
+        bullet.y = bot.y + (rand_double() * 2.0 - 1.0) * 30.0;
 
-	bullet.speed = BULLET_SPEED;
-	bullet.hitbox = 10;
-	bullet.color = { 255,0,0 };
-	bullet.hp = bullet.max_hp = 4;
-	bullet.damage = 0.2f * difficulty;
-    bullet.is_enemy = true;
-	bullet.is_bullet = true;
-	spawn(bullet);
+        bullet.speed = BULLET_SPEED;
+        bullet.hitbox = 6;
+        bullet.color = { 255,0,0 };
+        bullet.hp = bullet.max_hp = 4;
+        bullet.damage = 1.f * difficulty;
+        bullet.is_enemy = true;
+        bullet.is_bullet = true;
+        spawn(bullet);
+    }
 }
 
-void move_bot_2(Game_Object& object) {
+void move_boss(Game_Object& object) {
 	auto& player = get_player();
 	if (player.type != Type::player)
 		return;

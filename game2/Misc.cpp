@@ -79,7 +79,7 @@ int enemy_info() {
 	int enemys = 0;
 
 	for (auto& enemy : objects)
-		if (enemy.type == Type::bot1 && enemy.hp >= 1)
+		if (enemy.is_enemy && !enemy.is_bullet && enemy.hp >= 1)
 			enemys += 1;
 
 	return enemys;

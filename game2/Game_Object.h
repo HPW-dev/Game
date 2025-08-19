@@ -6,6 +6,7 @@ enum class Type {
 	none,
 	player,
 	bot1,
+	boss1,
 	bullet,
 	coin,
 	button,

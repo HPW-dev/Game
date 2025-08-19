@@ -37,7 +37,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	} },
 	{"art-coast",shop_item{
-		.name = "Coast +70%",
+		.name = "More money",
 		.coast = int(BASE_COAST * 0.5),
 		.action = [](Game_Object& player) {
 			player.coast_plus += 0.75f;
@@ -90,7 +90,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},*/
 	{"art-size",shop_item{
-		.name = "Size +33%",
+		.name = "giant's potion",
 		.coast = int(BASE_COAST * 0.666),
 		.action = [](Game_Object& player) {
 			player.size += 1.f / 3.f;
@@ -98,7 +98,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},
 	{"art-size-minus",shop_item{
-		.name = "Size -10%",
+		.name = "gnome potion",
 		.coast = int(BASE_COAST * 0.75),
 		.action = [](Game_Object& player) {
 			player.size = std::max(0.01f, player.size * 0.9f);
@@ -106,7 +106,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},
 	{"art-damage",shop_item{
-		.name = "Damage +50%",
+		.name = "Marilyn's bracelet",
 		.coast = int(BASE_COAST * 0.3),
 		.action = [](Game_Object& player) {
 			player.damage += 0.5f;
@@ -114,7 +114,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},
 	{"art-max-hp",shop_item{
-		.name = "Max HP +150%",
+		.name = "Heart of Stone",
 		.coast = int(BASE_COAST * 0.6),
 		.action = [](Game_Object& player) {
 			player.max_hp += player.max_hp * 1.5f;
@@ -123,7 +123,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},
 	{"art-maxhp-to-damage",shop_item{
-		.name = "30% HP -> 90% damage",
+		.name = "More blood",
 		.coast = int(BASE_COAST * 0.2),
 		.action = [](Game_Object& player) {
 			player.max_hp *= 0.666f;
@@ -133,7 +133,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	}},
 	{ "art-speedup",shop_item{
-		.name = "Speed +15%",
+		.name = "Boots of speed",
 		.coast = int(BASE_COAST * 0.4),
 		.action = [](Game_Object& player) {
 			player.speed *= 1.15f;
@@ -141,7 +141,7 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	} },
 	{ "art-shoot-speedup",shop_item{
-		.name = "Shoot speed +20%",
+		.name = "Attack Speed",
 		.coast = int(BASE_COAST * 0.666f),
 		.action = [](Game_Object& player) {
 			player.shot_time_max *= 0.80f;
@@ -149,23 +149,23 @@ inline std::map <std::string, shop_item> items_base{
 		}
 	} },
 	{ "art-armor",shop_item{
-		.name = "Armor +20%",
+		.name = "Merlin's Mantle",
 		.coast = int(BASE_COAST * 0.85f),
 		.action = [](Game_Object& player) {
-			player.armor += 0.2f;
+			player.armor += 0.8f;
 			add_label(200, 200, "ARMOR " + std::to_string(int(player.armor)), sf::Color::Green);
 		}
 	} },
 	{ "art-coing-to-hp",shop_item{
-		.name = "Coin -> HP",
+		.name = "Blood money",
 		.coast = int(BASE_COAST * 0.9f),
 		.action = [](Game_Object& player) {
 			player.coin_to_hp += 1.5f;
-			add_label(200, 200, "COIN TO HP " + std::to_string(int(player.armor)), sf::Color::Green);
+			add_label(200, 200, "COIN TO HP " + std::to_string(int(player.coin_to_hp)), sf::Color::Green);
 		}
 	} },
 	{ "art-bullets-up",shop_item{
-		.name = "Bullets x2",
+		.name = "Merlin's Belt",
 		.coast = int(BASE_COAST * 1.5f),
 		.action = [](Game_Object& player) {
 			player.bullets *= 2;
@@ -176,16 +176,25 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "Air",
 		.coast = 0,
 	} },
+	
+	{ "art-free",shop_item{
+		.name = "Free",
+		.coast = 0,
+		.action = [](Game_Object& player) {
+			money *= (rand() / float(RAND_MAX)) * 3.f;
+			add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Green);
+		}
+	} },
 	{ "art-rich",shop_item{
 		.name = "Rich",
 		.coast = int(BASE_COAST * 5.f),
 		.action = [](Game_Object& player) {
-			money += BASE_COAST * 7.5f;
+			money *= 1.75;
 			add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Green);
 		}
 	} },
 	{ "art-error",shop_item{
-		.name = "Error",
+		.name = "Take it :3",
 		.coast = -1,
 		.action = [](Game_Object& player) {
 			std::terminate();
@@ -196,12 +205,56 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "Casino",
 		.coast = int(BASE_COAST * 0.6f),
 		.action = [](Game_Object& player) {
-			if (rand() % 2) {
+			if ((rand() % 100) > 51) {
 				money *= 4.f;
 				add_label(200, 200, "MONEY +" + std::to_string(int(money)), sf::Color::Green);
 			} else {
 				money *= -1;
 				add_label(200, 200, "MONEY -" + std::to_string(int(money)), sf::Color::Red);
+			}
+		}
+	} },
+
+	{ "art-random",shop_item{
+		.name = "Random",
+		.coast = int(BASE_COAST * 0.35f),
+		.action = [](Game_Object& player) {
+			switch (rand() % 8) {
+				case 0:
+					player.max_hp += player.max_hp * 1.25f;
+					player.hp += player.hp * 1.25f;
+					add_label(200, 200, "MAX HP " + std::to_string(int(player.max_hp)), sf::Color::Green);
+					break;
+				case 1:
+					player.max_hp -= player.max_hp * 1.25f;
+					player.hp -= player.hp * 1.25f;
+					add_label(200, 200, "MAX HP " + std::to_string(int(player.max_hp)), sf::Color::Red);
+					break;
+				case 2:
+					money += BASE_COAST;
+					add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Green);
+					break;
+				case 3:
+					money -= BASE_COAST;
+					add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Red);
+					break;
+				
+				case 4:
+					player.damage *= 1.5;
+					add_label(200, 200, "DAMAGE " + std::to_string(int(player.damage)), sf::Color::Green);
+					break;
+				case 5:
+					player.damage /= 1.5;
+					add_label(200, 200, "DAMAGE " + std::to_string(int(player.damage)), sf::Color::Red);
+					break;
+				case 6:
+					player.speed *= 1.15;
+					add_label(200, 200, "SPEED " + std::to_string(int(player.speed)), sf::Color::Green);
+					break;
+				case 7:
+					player.speed /= 1.30;
+					add_label(200, 200, "SPEED " + std::to_string(int(player.speed)), sf::Color::Red);
+					break;
 			}
 		}
 	} },

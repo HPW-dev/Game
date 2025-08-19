@@ -22,9 +22,10 @@ void set_fullscreen(sf::RenderWindow& window, bool mode) {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     resolutionx = desktopMode.size.x;
     resolutiony = desktopMode.size.y;
-    //window.setPosition({0,0});
+    //window.setPosition({0,0} );
     //window.setSize(sf::Vector2u(resolutionx, resolutiony));
     window.create(desktopMode, "Fullscreen PotatoII", sf::State::Fullscreen);
+    //window.create(mode, "PotatoII", sf::Style::None, sf::State::Windowed);
   } else {
     resolutionx = DEFAULT_RES_X;
     resolutiony = DEFAULT_RES_Y;

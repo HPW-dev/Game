@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Bot1.h"
 #include "Bot2.h"
+#include "Boss.h"
 #include "Bullet.h"
 
 inline void game_object_control(Game_Object& object) {
@@ -10,6 +11,7 @@ inline void game_object_control(Game_Object& object) {
 	  case Type::player: moveplayer(object); break;
 	  case Type::bot1: move_bot(object); break;
 	  case Type::bot_archer: move_bot_2(object); break;
+	  case Type::boss1: move_boss(object); break;
 	  case Type::bullet: move_bullet(object); break;
 	  case Type::bot_bullet: move_bullet(object); break;
 	  case Type::coin: break;

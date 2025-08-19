@@ -141,6 +141,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bot1.cpp" />
     <ClCompile Include="Bot2.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Bot1.h" />
     <ClInclude Include="Bot2.h" />
     <ClInclude Include="Bullet.h" />
