@@ -9,41 +9,47 @@
 #include "dps-numbers.h"
 
 // превращение в монетку
-static void make_money(Game_Object& coin) {
+static void make_money(Game_Object& boss) {
+	for (int i = 0; i < 20 + rand() % 50; ++i) {
+		Game_Object coin;
+		coin.x = boss.x + (rand_double() * 2.f - 1.f) * 100.f;
+		coin.y = boss.y + (rand_double() * 2.f - 1.f) * 100.f;
+		coin.dead_function = {};
+		coin.type = Type::coin;
+		coin.hitbox = 5;
+		coin.color = { 255,255,0 };
+		coin.hp = coin.max_hp = 1;
+		coin.damage = 0;
+		coin.speed = 0;
+		coin.difficulty_plus = 0;
+		coin.is_enemy = false;
+
+		// действие при поднятии монеты
+		coin.dead_function = [](Game_Object& o) {
+			if (o.life_time > 0) {
+				auto& player = objects.at(0);
+				auto gold = 1500.f / (difficulty * 0.9f);
+				gold += gold * player.coast_plus;
+				// шанс выпадения x2
+				if (rand_double() < player.x2_gold)
+					gold *= 2;
+				money += gold;
+				player.hp += player.coin_to_hp;
+				add_label(o.x + 50, o.y, "+" + std::to_string(int(gold)) + "$");
+			}
+		};
+		coin.texture = "coin";
+		coin.life_time = 200 * 6;
+		spawn(coin);
+	}
+
     kill_boss = false;
 	boss_defeated = true;
     boss_spawned = false;
 
 	// за убийство бота повышение сложности
-	if (wawe == true)
-		difficulty += coin.difficulty_plus;
-
-	coin.dead_function = {};
-	coin.type = Type::coin;
-	coin.hitbox = 5;
-	coin.color = { 255,255,0 };
-	coin.hp = coin.max_hp = 1;
-	coin.damage = 0;
-	coin.speed = 0;
-	coin.difficulty_plus = 0;
-	coin.is_enemy = false;
-
-	// действие при поднятии монеты
-	coin.dead_function = [](Game_Object& o) {
-		if (o.life_time > 0) {
-			auto& player = objects.at(0);
-			auto gold = 1500.f / (difficulty * 0.9f);
-			gold += gold * player.coast_plus;
-			// шанс выпадения x2
-			if (rand_double() < player.x2_gold)
-				gold *= 2;
-			money += gold;
-			player.hp += player.coin_to_hp;
-			add_label(o.x + 50, o.y, "+" + std::to_string(int(gold)) + "$");
-		}
-	};
-	coin.texture = "coin";
-	coin.life_time = 200 * 6;
+	//if (wawe == true)
+	//	difficulty += coin.difficulty_plus;
 }
 
 void make_boss() {
@@ -80,12 +86,12 @@ static void shot_to_player(Game_Object& bot, const Game_Object& target) {
         Game_Object bullet;
         bullet.type = Type::bot_bullet;
         
-        float x = target.x - bot.x + (rand_double() * 2.0 - 1.0) * 50.0;
-        float y = target.y - bot.y + (rand_double() * 2.0 - 1.0) * 50.0;
+        float x = target.x - bot.x + (rand_double() * 2.0 - 1.0) * 150.0;
+        float y = target.y - bot.y + (rand_double() * 2.0 - 1.0) * 150.0;
         float diff = distance(target.x, target.y, bot.x, bot.y);
         x /= diff;
         y /= diff;
-        float BULLET_SPEED = 2.5f;
+        float BULLET_SPEED = 4.0f;
         x *= BULLET_SPEED;
         y *= BULLET_SPEED;
         bullet.vx = x;
@@ -127,7 +133,7 @@ void move_boss(Game_Object& object) {
 		object.shot_time = object.shot_delay;
 	}
 
-    if (diff > 300.f) { // подойти
+    if (diff > 200.f) { // подойти
         object.x += static_cast<float>(x);
         object.y += static_cast<float>(y);
     } else { // убежать

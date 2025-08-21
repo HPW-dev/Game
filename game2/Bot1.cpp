@@ -62,7 +62,7 @@ void makebot1() {
 	bot1.color = { 0,255,0 };
 	bot1.hp = bot1.max_hp = 30 * difficulty;
 	bot1.damage = 0.2f * difficulty;
-	bot1.texture = "bot_1";
+	bot1.texture = "slime";
 	bot1.dead_function = &dead;
 	bot1.is_enemy = true;
 	spawn(bot1);

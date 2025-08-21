@@ -4,6 +4,7 @@
 #include "Game_Core.h"
 #include <iostream>
 #include "Misc.h"
+#include "Sound.h"
 
 void makeplayer() {
   Game_Object player;
@@ -26,6 +27,8 @@ void makeplayer() {
 // выстрел игрока
 static void bullets(Game_Object& player) {
   if (player.shot_time <= 0) {
+    play_sound("bullet_sound", 5.f, 2.5f + (rand() / float(RAND_MAX)) * 0.5f);
+
     for (unsigned i = 0; i < player.bullets; ++i) {
       Game_Object bullet;
       bullet.type = Type::bullet;

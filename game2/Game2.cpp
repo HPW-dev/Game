@@ -9,12 +9,45 @@
 #include "Misc.h"
 #include "Game_Object.h"
 #include "Graphic.h"
+#include "Sound.h"
 
 void loading_textures() {
   load_texture("player", "Resources/Images/Main_hero.png");
   load_texture("bullet", "Resources/Images/def_bullet.png");
-  load_texture("bot_1", "Resources/Images/bot_1.png");
+  load_texture("slime", "Resources/Images/slime.png");
   load_texture("coin", "Resources/Images/coin.png");
+  load_texture("bg_for_menu", "Resources/Images/bg_for_menu.png");
+  load_texture("bg_shop", "Resources/Images/bg_shop.jpg");
+  load_texture("bg_for_game", "Resources/Images/bg_for_game.png");
+  load_texture("chest", "Resources/Images/chest.png");
+}
+
+void loading_sounds() {
+  load_sound("music_1", "Resources/Audio/01 - Falling Apart (Prologue).mp3", true);
+  load_sound("music_2", "Resources/Audio/02 - Title Theme.mp3", true);
+  load_sound("music_3", "Resources/Audio/03 - Definitely Our Town.mp3", true);
+  load_sound("music_4", "Resources/Audio/04 - Silent Forest.mp3", true);
+  load_sound("music_5", "Resources/Audio/05 - Battle 1.mp3", true);
+  load_sound("music_6", "Resources/Audio/06 - Victory!.mp3", true);
+  load_sound("music_7", "Resources/Audio/07 - Port Town.mp3", true);
+  load_sound("music_8", "Resources/Audio/08 - Shop.mp3", true);
+  load_sound("music_9", "Resources/Audio/09 - Battle 2.mp3", true);
+  load_sound("music_10", "Resources/Audio/10 - Lost Shrine.mp3", true);
+  load_sound("music_11", "Resources/Audio/11 - The Mighty Kingdom.mp3", true);
+  load_sound("music_12", "Resources/Audio/12 - Frozen Abyss.mp3", true);
+  load_sound("music_13", "Resources/Audio/13 - Decisive Battle 1 - Don't Be Afraid.mp3", true);
+  load_sound("music_14", "Resources/Audio/14 - Tales of Firelight Town.mp3", true);
+  load_sound("music_15", "Resources/Audio/15 - Peaceful Night.mp3", true);
+  load_sound("music_16", "Resources/Audio/16 - The Calm Before The Storm.mp3", true);
+  load_sound("music_17", "Resources/Audio/18 - Never Give Up.mp3", true);
+  load_sound("music_18", "Resources/Audio/19 - Where The Winds Roam.mp3", true);
+  load_sound("music_19", "Resources/Audio/20 - The Journey.mp3", true);
+  load_sound("music_20", "Resources/Audio/21 - Final Battle - For Love.mp3", true);
+  load_sound("music_21", "Resources/Audio/22 - The Final of The Fantasy.mp3", true);
+  load_sound("bullet_sound", "Resources/Audio/bullet_sound.ogg");
+
+  int rnd = (rand() % 21) + 1; // рандомный номер трека
+  play_sound("music_" + std::to_string(rnd), 1.f);
 }
 
 void set_fullscreen(sf::RenderWindow& window, bool mode) {
@@ -52,6 +85,7 @@ int main() {
     auto time_st = std::clock();
     loadingfont("Word Gothic.ttf");
     loading_textures();
+    loading_sounds();
 
     while (window.isOpen()) {//главный цикл игры
         game_time += 1;

@@ -22,7 +22,7 @@ inline bool fullscreen = false;
 inline bool kill_boss = false;
 inline bool boss_defeated = false;
 inline bool boss_spawned = false;
-inline sf::Color bg_color = sf::Color(0,0,0); // цвет фона
+inline std::string background = "bg_for_game";
 
 inline void game_master() {
 	if (difficulty >= difficulty_max) {
@@ -43,12 +43,12 @@ inline void game_master() {
 	if (boss_spawned) {
 		shop = false;
 		wawe = false;
-		bg_color = sf::Color(0, 32, 0);
+		background = "bg_for_game"; // <-- потом заменить
 	} else {
-		bg_color = sf::Color(0, 0, 0);
+		background = "bg_for_game";
 	}
 
 	if (shop)
-		bg_color = sf::Color(0, 16, 32);
+		background = "bg_shop";
 }
 

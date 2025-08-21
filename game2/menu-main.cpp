@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Rec.h"
 #include "Font.h"
+#include "Graphic.h"
 
 // сброс игры
 static void game_reset() {
@@ -31,5 +32,7 @@ void update_mainmenu() {
 }
 
 void render_mainmenu(sf::RenderWindow& window) {
+	background = "bg_for_menu";
+	draw_texture(window, background, resolutionx/2,resolutiony/2, fullscreen ? 2.f : 1.f);
 	drawtxt(window, "Start", resolutionx / 2.f, resolutiony / 2.f, 60);
 }

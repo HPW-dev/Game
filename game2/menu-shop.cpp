@@ -34,14 +34,16 @@ void update_shop() {
 		for (auto& item : shop_items) {
 			Game_Object button;
 			button.type = Type::button;
-			button.hitbox = 40;
-			button.color = { 0,0,255 };
+			button.hitbox = 15;
+			//button.color = { 0,0,255 };
 			button.hp = button.max_hp = 10;
 			button.damage = 0;
 			button.x = 110;
 			button.y = 140.f + id_items * 100.f;
 			id_items += 1;
 			button.speed = 0;
+			button.texture = "chest";
+			button.size = 2.f;
 			button.dead_function = [&](Game_Object& o) {
 				if (money < item.coast) {
 					o.hp = 10;
@@ -68,8 +70,8 @@ void render_shop(sf::RenderWindow& window) {
 	int id_items = 0;
 	for (auto item : shop_items) {
 		if (!item.buy) {
-			drawtxt(window, item.name, 25, 100.f + id_items * 100.f, 50);
-			drawtxt(window, std::to_string(item.coast), 25, 150.f + id_items * 100.f, 30);
+			drawtxt(window, item.name, 175.f, 100.f + id_items * 100.f, 50);
+			drawtxt(window, std::to_string(item.coast), 175.f, 150.f + id_items * 100.f, 30);
 		}
 		id_items++;
 	}

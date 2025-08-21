@@ -76,7 +76,8 @@ void update_game_scene() {
 }
 
 void render_game_scene(sf::RenderWindow& window) {
-	window.clear(bg_color);
+	window.clear();
+	draw_texture(window, background, resolutionx/2,resolutiony/2, fullscreen ? 2.f : 1.f);
 	std::string txt = "difficulty " + std::to_string(difficulty);
 	std::string healt = "hp " + std::to_string(int(get_player().hp));
 	std::string enemy_count = "enemy count " + std::to_string(enemy_info());

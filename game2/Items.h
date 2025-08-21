@@ -189,7 +189,7 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "Rich",
 		.coast = int(BASE_COAST * 5.f),
 		.action = [](Game_Object& player) {
-			money *= 1.75;
+			money += BASE_COAST * 5.f + money * 1.75;
 			add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Green);
 		}
 	} },
