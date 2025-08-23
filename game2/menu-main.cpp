@@ -1,3 +1,4 @@
+#include <iostream>
 #include "menu-main.h"
 #include "menu.h"
 #include "Objects.h"
@@ -6,15 +7,11 @@
 #include "Rec.h"
 #include "Font.h"
 #include "Graphic.h"
+#include "Button.h"
 
 // сброс игры
 static void game_reset() {
-	next_menu(menu_Type::game_scene);
-	objects.clear();
-	difficulty = 1;
-	difficulty_max = difficulty_max_default;
-	money = 0;
-	makeplayer();
+	next_menu(menu_Type::character_menu);
 }
 
 void update_mainmenu() {

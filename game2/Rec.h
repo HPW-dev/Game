@@ -1,8 +1,8 @@
 #pragma once
 
 struct Rectangle {
-	int x, y;
-	int max_x, max_y;
+	int x {}, y {};
+	int max_x {}, max_y {};
 };
 
 inline bool in_Rectangle(Rectangle rec,int x,int y) {

@@ -8,6 +8,7 @@
 #include "menu-settings.h"
 #include "menu-main.h"
 #include "menu-yesno.h"
+#include "menu-character.h"
 
 static std::vector <menu_Type> history_of_menu;
 static std::function<void()>update_menu_func = {};
@@ -54,6 +55,11 @@ void update_menu() {
 	case menu_Type::basic_menu:
 		update_menu_func = &update_mainmenu;
 		render_menu_func = &render_mainmenu;
+		break;
+	
+	case menu_Type::character_menu:
+		update_menu_func = &update_character;
+		render_menu_func = &render_character;
 		break;
 
 	case menu_Type::game_scene:

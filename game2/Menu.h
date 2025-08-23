@@ -8,6 +8,7 @@ enum class menu_Type {
 	yes_no,
 	results,
 	shop,
+	character_menu,
 };
 
 void next_menu(menu_Type menu); // выбор следующего меню

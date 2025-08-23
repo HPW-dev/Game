@@ -17,11 +17,14 @@ void load_texture(std::string name, std::string file) {
     };
 }
 
-bool draw_texture(sf::RenderWindow& window, std::string name, float x, float y, float scale) {
+bool draw_texture(sf::RenderWindow& window, std::string name, float x, float y, float scale, bool center) {
     try {
         auto& texture = textures.at(name);
         auto sz = texture.tex->getSize();
-        texture.spr->setPosition(sf::Vector2f{x-sz.x*scale/2, y-sz.y*scale/2});
+        if (center)
+            texture.spr->setPosition(sf::Vector2f{x-sz.x*scale/2, y-sz.y*scale/2});
+        else
+            texture.spr->setPosition(sf::Vector2f{x, y});
         texture.spr->setScale(sf::Vector2f{scale, scale});
         // TODO scale
         window.draw(*texture.spr);
