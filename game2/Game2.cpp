@@ -20,6 +20,8 @@ void loading_textures() {
   load_texture("bg_shop", "Resources/Images/bg_shop.jpg");
   load_texture("bg_for_game", "Resources/Images/bg_for_game.png");
   load_texture("chest", "Resources/Images/chest.png");
+  load_texture("boss", "Resources/Images/boss.png");
+  load_texture("bullet_2", "Resources/Images/bullet_2.png");
 }
 
 void loading_sounds() {
@@ -66,7 +68,7 @@ void set_fullscreen(sf::RenderWindow& window, bool mode) {
     window.create(mode, "PotatoII");
   }
 
-  window.setFramerateLimit(200);
+  window.setFramerateLimit(TICKRATE);
   window.setVerticalSyncEnabled(false);
 }
 
@@ -80,7 +82,7 @@ int main() {
     sf::Vector2u size(resolutionx, resolutiony);
     auto mode = sf::VideoMode(size);
     sf::RenderWindow window(mode, "PotatoII");
-    window.setFramerateLimit(200);
+    window.setFramerateLimit(TICKRATE);
     window.setVerticalSyncEnabled(false);
     auto time_st = std::clock();
     loadingfont("Word Gothic.ttf");
@@ -88,6 +90,9 @@ int main() {
     loading_sounds();
 
     while (window.isOpen()) {//главный цикл игры
+        if (exit_from_game)
+          break;
+
         game_time += 1;
         while (auto event = window.pollEvent()) {
             bool is_closed = event->is<sf::Event::Closed>();

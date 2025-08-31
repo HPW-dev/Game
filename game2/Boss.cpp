@@ -76,6 +76,7 @@ void make_boss() {
     e.is_enemy = true;
 	e.shot_delay = 2 * 300;
 	e.shot_time = rand() % e.shot_delay;
+	e.texture = "boss";
 	//e.texture = "bot_1";
 	e.dead_function = &make_money;
 	spawn(e);
@@ -106,6 +107,7 @@ static void shot_to_player(Game_Object& bot, const Game_Object& target) {
         bullet.damage = 1.f * difficulty;
         bullet.is_enemy = true;
         bullet.is_bullet = true;
+		bullet.texture = "bullet";
         spawn(bullet);
     }
 }

@@ -133,7 +133,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\SFML-3.0.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-main-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-main-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SwapRunFromCD>true</SwapRunFromCD>
     </Link>
     <ProjectReference>
@@ -150,6 +150,8 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="game2.cpp" />
     <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Lan-menu.cpp" />
+    <ClCompile Include="Lan.cpp" />
     <ClCompile Include="menu-character.cpp" />
     <ClCompile Include="menu-game.cpp" />
     <ClCompile Include="menu-main.cpp" />
@@ -175,6 +177,7 @@
     <ClInclude Include="Game_object_control.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Items.h" />
+    <ClInclude Include="Lan-menu.h" />
     <ClInclude Include="menu-character.h" />
     <ClInclude Include="menu-game.h" />
     <ClInclude Include="menu-main.h" />

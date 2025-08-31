@@ -8,6 +8,7 @@
 #include "menu-settings.h"
 #include "menu-main.h"
 #include "menu-yesno.h"
+#include "Lan-menu.h"
 #include "menu-character.h"
 
 static std::vector <menu_Type> history_of_menu;
@@ -70,6 +71,11 @@ void update_menu() {
 	case menu_Type::yes_no:
 		update_menu_func = &update_yes_or_no;
 		render_menu_func = &render_yes_or_no;
+		break;
+	
+	case menu_Type::lan:
+		update_menu_func = &update_lan_menu;
+		render_menu_func = &render_lan_menu;
 		break;
 
 	default: break;

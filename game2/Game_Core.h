@@ -3,6 +3,7 @@
 #include "potato-sfml.h"
 #include "Misc.h"
 
+constexpr int TICKRATE = 200;
 constexpr int DEFAULT_RES_X = 1280;
 constexpr int DEFAULT_RES_Y = 720;
 inline int resolutionx = DEFAULT_RES_X;
@@ -14,15 +15,17 @@ inline int game_time = 0;
 inline float difficulty = 1;
 inline const float difficulty_max_default = 1.5f;
 inline float difficulty_max = difficulty_max_default; // сколько сложности набрать для смены уровня
-inline float difficulty_for_boss_max = 2.f;
+inline const float DEFAULT_DIFFICULTY_FOR_BOSS = 2.f;
+inline float difficulty_for_boss_max = DEFAULT_DIFFICULTY_FOR_BOSS;
 inline bool wawe = true;
 inline bool shop = false;
-inline float money = 0;
+inline int64_t money = 0;
 inline bool fullscreen = false;
 inline bool kill_boss = false;
 inline bool boss_defeated = false;
 inline bool boss_spawned = false;
 inline std::string background = "bg_for_game";
+inline bool exit_from_game = false;
 
 inline void game_master() {
 	if (difficulty >= difficulty_max) {

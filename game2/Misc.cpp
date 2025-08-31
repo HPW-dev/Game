@@ -45,7 +45,8 @@ void damage(Game_Object& a, Game_Object& b) {
 		) {
 		auto& player = objects.at(0);
 		auto damage = b.is_enemy ? a.damage : b.damage;
-		player.hp += damage * player.vampirism;
+		if (player.hp > 0)
+			player.hp += damage * player.vampirism;
 	}
 
 	// обработка замедления:

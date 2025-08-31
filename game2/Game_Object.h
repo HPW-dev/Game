@@ -15,7 +15,7 @@ enum class Type {
 };
 
 struct Game_Object {
-	float gold_passive = 0; // если > 0, то золото будет капать каждый кадр
+	int64_t gold_passive = 0; // если > 0, то золото будет капать каждый кадр
 	float damage = 0;
 	float speed = 0;
 	float size = 1;
@@ -45,6 +45,7 @@ struct Game_Object {
 	float coin_to_hp = 0;
 	bool is_enemy = false;
 	bool is_bullet = false;
+	std::string nick = {};
 	Type type{};
 	Type creator{}; // тот, кто создал объект
 };

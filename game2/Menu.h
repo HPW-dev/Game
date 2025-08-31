@@ -4,6 +4,7 @@
 enum class menu_Type {
 	basic_menu,
 	game_scene,
+	lan,
 	settings,
 	yes_no,
 	results,

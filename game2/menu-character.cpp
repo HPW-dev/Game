@@ -9,15 +9,20 @@
 #include "Font.h"
 #include "Graphic.h"
 #include "Button.h"
+#include "Lan.h"
 
 // сброс игры
-static void game_reset() {
+void game_reset() {
 	next_menu(menu_Type::game_scene);
     objects.clear();
     difficulty = 1;
     difficulty_max = difficulty_max_default;
+    difficulty_for_boss_max = DEFAULT_DIFFICULTY_FOR_BOSS;
     money = 0;
     makeplayer();
+
+    if (lan_enabled)
+        makeplayer(true);
 }
 
 static std::vector<Button> buttons {};
@@ -44,6 +49,7 @@ Button make_char_button(int x, int y, int char_num) {
         .click_sound = "bullet_sound",
         .texture = "player",
         .action = []{
+            lan_enabled = false;
             game_reset();
             first_start = true;
         }
@@ -65,6 +71,8 @@ static void make_buttons() {
 }
 
 void update_character() {
+    lan_enabled = false;
+    
     if (first_start)
         make_buttons();
     for (auto& btn: buttons) {

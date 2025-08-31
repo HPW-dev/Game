@@ -23,7 +23,7 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "farm",
 		.coast = int(BASE_COAST * 1.1),
 		.action = [](Game_Object& player) {
-			player.gold_passive += 0.35f;
+			player.gold_passive += 1;
 			add_label(200, 200, "PASSIVE GOLD " + std::to_string(player.gold_passive), sf::Color::White);
 		}
 	} },
@@ -181,7 +181,7 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "Free",
 		.coast = 0,
 		.action = [](Game_Object& player) {
-			money *= (rand() / float(RAND_MAX)) * 3.f;
+			money += money * (rand() / float(RAND_MAX)) * 3.f;
 			add_label(200, 200, "MONEY " + std::to_string(int(money)), sf::Color::Green);
 		}
 	} },
@@ -197,7 +197,7 @@ inline std::map <std::string, shop_item> items_base{
 		.name = "Take it :3",
 		.coast = -1,
 		.action = [](Game_Object& player) {
-			std::terminate();
+			exit_from_game = true;
 		}
 	} },
 	

@@ -35,7 +35,7 @@ static void dead(Game_Object& coin) {
 				gold *= 2;
 			money += gold;
 			player.hp += player.coin_to_hp;
-			add_label(o.x + 50, o.y, "+" + std::to_string(int(gold)) + "$");
+			add_label(o.x + 50, o.y, "+" + std::to_string(int64_t(gold)) + "$");
 		}
 		};
 	coin.texture = "coin";

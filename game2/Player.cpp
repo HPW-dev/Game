@@ -5,8 +5,9 @@
 #include <iostream>
 #include "Misc.h"
 #include "Sound.h"
+#include "Lan.h"
 
-void makeplayer() {
+void makeplayer(bool lan_player) {
   Game_Object player;
   player.type = Type::player;
   player.x = resolutionx / 2.f;
@@ -20,6 +21,12 @@ void makeplayer() {
   player.regen = 0;
   player.gold_passive = 0;
   player.texture = "player";
+  if (lan_enabled) {
+    if (lan_player)
+      player.nick = "Client";
+    else
+      player.nick = "Server";
+  }
   player.shot_time_max = 15;
   spawn(player);
 }
@@ -59,7 +66,9 @@ static void bullets(Game_Object& player) {
       bullet.movement_slowdown += player.movement_slowdown;
       bullet.hp = bullet.max_hp = 100;
       bullet.creator = player.type;
-      bullet.texture = "bullet";
+      bullet.texture = "bullet_2";
+      bullet.size = 0.2;
+      
       spawn(bullet);
     }
   }
@@ -68,10 +77,24 @@ static void bullets(Game_Object& player) {
 Game_Object& get_player() { return objects.at(0); }
 
 void moveplayer(Game_Object& player) {
-  bool key_UP = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W);
-  bool key_LEFT = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A);
-  bool key_DOWN = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S);
-  bool key_RIGHT = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D);
+  bool key_UP = false;
+  bool key_LEFT = false;
+  bool key_DOWN = false;
+  bool key_RIGHT = false;
+
+  if (player.nick != "Client") {
+    key_UP = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W);
+    key_LEFT = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A);
+    key_DOWN = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S);
+    key_RIGHT = sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D);
+  } else {
+    for (const auto& cmd: client_commands) {
+      key_UP |= (cmd == "KEY|W");
+      key_DOWN |= (cmd == "KEY|S");
+      key_LEFT |= (cmd == "KEY|A");
+      key_RIGHT |= (cmd == "KEY|D");
+    }
+  }
   if (key_UP) player.y -= player.speed;
   if (key_DOWN) player.y += player.speed;
   if (key_LEFT) player.x -= player.speed;
@@ -83,8 +106,21 @@ void moveplayer(Game_Object& player) {
   if (player.x > resolutionx) player.x = 0;
   if (player.y > resolutiony) player.y = 0;
 
-  if (mouse_pressed)
-     bullets(player);
+  if (player.nick == "Client") {
+    // найти команду для мышки
+    for (const auto& cmd: client_commands) {
+      auto params = split_command(cmd);
+      if (params.at(0) == "MOUSE") {
+        mousex = std::stod(params.at(1));
+        mousey = std::stod(params.at(2));
+        bullets(player);
+      }
+    }
+  }
+
+  // Server | Одиночка
+  if (mouse_pressed && player.nick != "Client")
+      bullets(player);
 
   if (!shop && wawe)
     money += player.gold_passive;
