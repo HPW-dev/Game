@@ -22,8 +22,8 @@ void update_mainmenu() {
 			.text = "Start",
 			.text_offset_x = 0,
 			.text_offset_y = 0,
-			.text_size = 60,
-			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2, 200, 60},
+			.text_size = 50,
+			.rectangle = Rectangle{50, resolutiony / 2, 200, 50},
 			.click_sound = "bullet_sound",
 			//.texture = "player",
 			.action = []{
@@ -34,8 +34,8 @@ void update_mainmenu() {
 			.text = "Lan",
 			.text_offset_x = 0,
 			.text_offset_y = 0,
-			.text_size = 60,
-			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2 + 70, 200, 60},
+			.text_size = 50,
+			.rectangle = Rectangle{50, resolutiony / 2 + 70, 200, 60},
 			.click_sound = "bullet_sound",
 			//.texture = "player",
 			.action = [] {

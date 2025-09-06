@@ -28,7 +28,9 @@ static void update_client(const sf::IpAddress& client_ip, unsigned short client_
 		packet << make_packet_obj(obj.texture, obj.x, obj.y, obj.size);
 
 	packet << make_packet_money((int64_t)money);
-	// <-- çäåñü îòïðàâêà êëèåíòó
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) packet << "EXIT";
+
 	sock.send(packet, client_ip, client_port);
 }
 
@@ -60,7 +62,8 @@ static void process_lan() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) packet << make_packet_key(sf::Keyboard::Key::D);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) packet << make_packet_close();
 		if (mouse_pressed) packet << make_packet_mouse(mousex, mousey);
-		sock.send(packet, server_ip, server_port);
+		assert(server_ip);
+		sock.send(packet, *server_ip, server_port);
 
 		packet = {};
 		std::optional<sf::IpAddress> ip;
@@ -83,7 +86,7 @@ void update_game_scene() {
 	if (lan_enabled && is_server)
 		for (const auto& cmd: client_commands)
 			if (cmd == "CLOSE")
-				back();
+				next_menu(menu_Type::basic_menu);
 
 	if (lan_enabled && is_server == false)
 		return;
@@ -157,9 +160,8 @@ static void client_render(sf::RenderWindow& window) {
 	for (const auto& cmd: server_commands) {
 		auto params = split_command(cmd);
 
-		// <-- ñþäà ïîëó÷åíèå êîìàíä äîìàøêà
-
-		if (params.at(0) == "EXIT") back();
+		if (params.at(0) == "EXIT")
+			next_menu(menu_Type::basic_menu);
 
 		// OBJ|ÍÀÇÂÀÍÈÅ_ÒÅÊÑÒÓÐÛ|ÊÎÎÐÄÈÍÀÒÀ_X|ÊÎÎÐÄÈÍÀÒÀ_Y|ÐÀÇÌÅÐ
 		if (params.at(0) == "OBJ") {
@@ -171,7 +173,8 @@ static void client_render(sf::RenderWindow& window) {
 		}
 
 		// COIN_COUNT|ÊÎËÂÎ ÌÎÍÅÒ
-		if (params.at(0) == "COINT_COUNT") drawtxt(window, params.at(1), 5, 90, 30);
+		if (params.at(0) == "COINT_COUNT")
+			drawtxt(window, params.at(1), 5, 90, 30);
 	}
 }
 
@@ -194,9 +197,8 @@ void render_game_scene(sf::RenderWindow& window) {
 	drawtxt(window, healt, resolutionx - 100.f, 5, 20);
 	drawtxt(window, std::to_string(game_time / 200), resolutionx - 100.f, 25, 20);
 	for (auto& object : objects) {
-		if (!draw_texture(window, object.texture, object.x, object.y, object.size)) {
+		if (!draw_texture(window, object.texture, object.x, object.y, object.size))
 			rendercircle(window, object.x, object.y, object.hitbox * object.size, object.color);
-		}
 		if (!object.nick.empty())
 			drawtxt(window, object.nick, object.x, object.y-50, 20);
 	}

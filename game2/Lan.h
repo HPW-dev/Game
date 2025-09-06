@@ -6,10 +6,10 @@
 inline bool lan_enabled = false;
 inline bool is_server = false;
 inline const int server_port = 35663;
-inline const sf::IpAddress server_ip(26, 211, 51, 240);
 inline sf::UdpSocket sock;
 inline std::vector<std::string> client_commands;
 inline std::vector<std::string> server_commands; // команды от сервера
+inline std::optional<sf::IpAddress> server_ip;
 inline std::optional<sf::IpAddress> client_ip;
 inline unsigned short client_port;
 

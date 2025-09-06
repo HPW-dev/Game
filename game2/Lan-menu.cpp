@@ -11,11 +11,11 @@
 #include "Button.h"
 #include "Lan.h"
 #include "menu-character.h"
+//#include <windows.h>
+#include <SFML/Window/Clipboard.hpp>
 
 static Button btn_server;
 static Button btn_client;
-static Button btn_click;
-static Button btn_exit;
 static bool once_init = true;
 
 void update_lan_menu() {
@@ -28,7 +28,7 @@ void update_lan_menu() {
 			.text_offset_x = 0,
 			.text_offset_y = 0,
 			.text_size = 60,
-			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2, 200, 60},
+			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2 - 70, 200, 60},
 			.click_sound = "bullet_sound",
 			//.texture = "player",
 			.action = []{
@@ -38,46 +38,36 @@ void update_lan_menu() {
                     std::terminate();
                 }
                 is_server = true;
+                game_reset(); // сразу включить игру
 			}
 		};
-		/*
 		btn_client = Button{
-			.text = "Client",
+			.text = "Join by IPv4 (From clipboard)",
 			.text_offset_x = 0,
 			.text_offset_y = 0,
 			.text_size = 60,
-			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2 + 70, 200, 60},
+			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2, 200, 60},
 			.click_sound = "bullet_sound",
 			//.texture = "player",
 			.action = [] {
-				// ...
-			}
-		};
-		*/
-		btn_click = Button{
-			.text = "Start",
-			.text_offset_x = 0,
-			.text_offset_y = 0,
-			.text_size = 60,
-			.rectangle = Rectangle{resolutionx / 2, resolutiony / 2 + 140, 200, 60},
-			.click_sound = "bullet_sound",
-			//.texture = "player",
-			.action = [] {
-                game_reset();
+				try {
+					std::string ip_str = sf::Clipboard::getString();
+					server_ip = sf::IpAddress::resolve(ip_str);
+				} catch(...) {
+					back();
+				}
+				game_reset(); // сразу включить игру
 			}
 		};
 	}
     
     check(btn_server);
-    //check(btn_client);
-    check(btn_click);
-    //check(btn_exit);
+    check(btn_client);
 }
 
 void render_lan_menu(sf::RenderWindow& window) {
 	background = "bg_for_menu";
     draw_texture(window, background, resolutionx/2,resolutiony/2, fullscreen ? 2.f : 1.f);
 	draw(window, btn_server);
-	//draw(window, btn_client);
-	draw(window, btn_click);
+	draw(window, btn_client);
 }
