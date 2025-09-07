@@ -13,7 +13,7 @@ void makeplayer(bool lan_player, const std::string& char_name) {
   using char_maker = std::function<Game_Object ()>;
   // таблица персов
   std::unordered_map<std::string, char_maker> char_table {
-    {"Mage", []()->Game_Object {
+    {"player", []()->Game_Object {
       Game_Object player;
       player.type = Type::player;
       player.x = resolutionx / 2.f;
@@ -28,7 +28,7 @@ void makeplayer(bool lan_player, const std::string& char_name) {
       return player;
     }},
 
-    {"A", []()->Game_Object {
+    {"player_2", []()->Game_Object {
       Game_Object player;
       player.type = Type::player;
       player.x = resolutionx / 2.f;
@@ -38,7 +38,7 @@ void makeplayer(bool lan_player, const std::string& char_name) {
       player.color = { 255,100,97 };
       player.damage = 1;
       player.max_hp = player.hp = 50;
-      player.texture = "player";
+      player.texture = "player_2";
       player.shot_time_max = 10;
       return player;
     }},

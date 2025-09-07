@@ -28,12 +28,14 @@ static void update_client(const sf::IpAddress& client_ip, unsigned short client_
 		packet << make_packet_obj(obj.texture, obj.x, obj.y, obj.size);
 
 	packet << make_packet_money((int64_t)money);
+	packet << "BG|" + background;
+	packet << "DRAW_TXT|" + std::to_string(int(objects[0].hp)) + "|" + std::to_string(objects[0].x) + "|" + std::to_string(objects[0].y - 50) + "|10";
+	packet << "DRAW_TXT|" + std::to_string(int(objects[1].hp)) + "|" + std::to_string(objects[1].x) + "|" + std::to_string(objects[1].y - 50) + "|10";
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) packet << "EXIT";
 
 	sock.send(packet, client_ip, client_port);
 }
-
 static void process_lan() {
 	client_commands.clear();
 	sf::Packet packet;
@@ -52,7 +54,7 @@ static void process_lan() {
 				client_port = port;
 			}
 		}
-
+		
 		if (client_ip)
 			update_client(*client_ip, client_port);
 	} else { // client
@@ -157,11 +159,21 @@ void update_game_scene() {
 
 // êîä äëÿ ãðàôîíà ó êëèåíòà
 static void client_render(sf::RenderWindow& window) {
-	for (const auto& cmd: server_commands) {
+	draw_texture(window, background, resolutionx / 2, resolutiony / 2, fullscreen ? 2.f : 1.f);
+	for (const auto& cmd : server_commands) {
 		auto params = split_command(cmd);
 
 		if (params.at(0) == "EXIT")
 			next_menu(menu_Type::basic_menu);
+		if (params.at(0) == "BG")
+			background = params.at(1);
+		if (params.at(0) == "DRAW_TXT") {
+			auto txt = params.at(1);
+			auto x = std::stod(params.at(2));
+			auto y = std::stod(params.at(3));
+			auto size = std::stod(params.at(4));
+			drawtxt(window, txt, x, y, size);
+		}
 
 		// OBJ|ÍÀÇÂÀÍÈÅ_ÒÅÊÑÒÓÐÛ|ÊÎÎÐÄÈÍÀÒÀ_X|ÊÎÎÐÄÈÍÀÒÀ_Y|ÐÀÇÌÅÐ
 		if (params.at(0) == "OBJ") {

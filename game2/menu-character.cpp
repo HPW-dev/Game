@@ -30,10 +30,8 @@ static bool first_start = true;
 
 Button make_char_button(int x, int y, int char_num) {
     std::vector<std::string> chars {
-        "Mage",
-        "A",
-        "B",
-        "C",
+        "player",
+        "player_2",
     };
     auto char_name = chars[char_num % chars.size()];
 
@@ -44,7 +42,7 @@ Button make_char_button(int x, int y, int char_num) {
         .text_size = 30,
         .rectangle = Rectangle{50 + x * 150, 50 + y * 200, 100, 100},
         .click_sound = "bullet_sound",
-        .texture = "player",
+        .texture = char_name,
         .action = [name=char_name]{
             lan_enabled = false;
             game_reset(name);
@@ -54,7 +52,7 @@ Button make_char_button(int x, int y, int char_num) {
 }
 
 static void make_buttons() {
-    const int table_x = 4;
+    const int table_x = 2;
     const int table_y = 1;
 
     int char_num = 0;

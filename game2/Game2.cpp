@@ -22,6 +22,7 @@ void loading_textures() {
   load_texture("chest", "Resources/Images/chest.png");
   load_texture("boss", "Resources/Images/boss.png");
   load_texture("bullet_2", "Resources/Images/bullet_2.png");
+  load_texture("player_2", "Resources/Images/player_2.png");
 }
 
 void loading_sounds() {
