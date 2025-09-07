@@ -12,17 +12,17 @@
 #include "Lan.h"
 
 // сброс игры
-void game_reset() {
+void game_reset(const std::string& char_name) {
 	next_menu(menu_Type::game_scene);
-    objects.clear();
-    difficulty = 1;
-    difficulty_max = difficulty_max_default;
-    difficulty_for_boss_max = DEFAULT_DIFFICULTY_FOR_BOSS;
-    money = 0;
-    makeplayer();
+  objects.clear();
+  difficulty = 1;
+  difficulty_max = difficulty_max_default;
+  difficulty_for_boss_max = DEFAULT_DIFFICULTY_FOR_BOSS;
+  money = 0;
+  makeplayer(false, char_name);
 
-    if (lan_enabled)
-        makeplayer(true);
+  if (lan_enabled)
+    makeplayer(true, char_name);
 }
 
 static std::vector<Button> buttons {};
@@ -34,23 +34,20 @@ Button make_char_button(int x, int y, int char_num) {
         "A",
         "B",
         "C",
-        "100",
-        "200",
-        "$$$",
-        "Test",
     };
+    auto char_name = chars[char_num % chars.size()];
 
     return Button {
-        .text = chars[char_num % chars.size()],
+        .text = char_name,
         .text_offset_x = 20,
         .text_offset_y = 110,
         .text_size = 30,
         .rectangle = Rectangle{50 + x * 150, 50 + y * 200, 100, 100},
         .click_sound = "bullet_sound",
         .texture = "player",
-        .action = []{
+        .action = [name=char_name]{
             lan_enabled = false;
-            game_reset();
+            game_reset(name);
             first_start = true;
         }
     };
@@ -58,7 +55,7 @@ Button make_char_button(int x, int y, int char_num) {
 
 static void make_buttons() {
     const int table_x = 4;
-    const int table_y = 3;
+    const int table_y = 1;
 
     int char_num = 0;
     for (int y = 0; y < table_y; ++y)

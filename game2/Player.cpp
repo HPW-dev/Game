@@ -1,3 +1,5 @@
+#include <functional>
+#include <unordered_map>
 #include "Player.h"
 #include "Objects.h"
 #include "potato-sfml.h"
@@ -7,27 +9,86 @@
 #include "Sound.h"
 #include "Lan.h"
 
-void makeplayer(bool lan_player) {
+void makeplayer(bool lan_player, const std::string& char_name) {
+  using char_maker = std::function<Game_Object ()>;
+  // таблица персов
+  std::unordered_map<std::string, char_maker> char_table {
+    {"Mage", []()->Game_Object {
+      Game_Object player;
+      player.type = Type::player;
+      player.x = resolutionx / 2.f;
+      player.y = resolutiony / 2.f;
+      player.speed = 2.5f;
+      player.hitbox = 30;
+      player.color = { 255,100,97 };
+      player.damage = 1;
+      player.max_hp = player.hp = 100;
+      player.texture = "player";
+      player.shot_time_max = 15;
+      return player;
+    }},
+
+    {"A", []()->Game_Object {
+      Game_Object player;
+      player.type = Type::player;
+      player.x = resolutionx / 2.f;
+      player.y = resolutiony / 2.f;
+      player.speed = 10.f;
+      player.hitbox = 30;
+      player.color = { 255,100,97 };
+      player.damage = 1;
+      player.max_hp = player.hp = 50;
+      player.texture = "player";
+      player.shot_time_max = 10;
+      return player;
+    }},
+
+    {"B", []()->Game_Object {
+      Game_Object player;
+      player.type = Type::player;
+      player.x = resolutionx / 2.f;
+      player.y = resolutiony / 2.f;
+      player.speed = 1.f;
+      player.hitbox = 30;
+      player.color = { 255,100,97 };
+      player.damage = 4;
+      player.max_hp = player.hp = 400;
+      player.texture = "player";
+      player.shot_time_max = 25;
+      return player;
+    }},
+
+    {"C", []()->Game_Object {
+      Game_Object player;
+      player.type = Type::player;
+      player.x = resolutionx / 2.f;
+      player.y = resolutiony / 2.f;
+      player.speed = 2.f;
+      player.hitbox = 30;
+      player.color = { 255,100,97 };
+      player.damage = 1;
+      player.max_hp = player.hp = 35;
+      player.texture = "player";
+      player.shot_time_max = 1;
+      return player;
+    }},
+  }; // char_table
+
   Game_Object player;
-  player.type = Type::player;
-  player.x = resolutionx / 2.f;
-  player.y = resolutiony / 2.f;
-  player.speed = 2.5f;
-  player.hitbox = 30;
-  player.color = { 255,100,97 };
-  player.hp = 100;
-  player.damage = 1;
-  player.max_hp = player.hp;
-  player.regen = 0;
-  player.gold_passive = 0;
-  player.texture = "player";
+  try {
+    player = char_table.at(char_name)();
+  }
+  catch (...) {
+    player = char_table.begin()->second(); // перс по умолчанию
+  }
+
   if (lan_enabled) {
     if (lan_player)
       player.nick = "Client";
     else
       player.nick = "Server";
   }
-  player.shot_time_max = 15;
+
   spawn(player);
 }
 
